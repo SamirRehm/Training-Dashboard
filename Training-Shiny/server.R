@@ -69,8 +69,8 @@ shinyServer(function(input, output) {
   runTypes = c('Run', 'Soccer', 'Elliptical', 'Swim', 'Volleyball', 'Tennis', 'Workout')
   colours = c('rgba(160,70, 255,0.6)', 'rgba(100,255,100,0.6)', 'rgba(255, 100, 100, 0.6)', 'rgba(255, 255, 100, 0.6)',
               'rgba(255, 100, 255, 0.6)', 'rgba(50, 150, 255, 0.6)', 'rgba(100, 255, 255, 0.6)')
-  names = c('Warm-up', 'Intervals', 'Tempo Run', 'Fartlek', 'Long Run', 'Easy Run', 'Cool-down')
   p <- plot_ly(data = timePerWeek, type = "bar", hoverinfo = "all") %>% layout(margin = list(l=0, r=0, b=0, t=0), xaxis = list(title = ""), barmode='stack', font = list(size = 9))
+  q <- plot_ly(data = Activities, type = "bar", hoverinfo = "all") %>% layout(margin = list(l=0, r=0, b=0, t=0), xaxis = list(title = ""), barmode = 'stack', font = list(size = 9))
   for(i in 1:length(runTypes)) {
     runsOfType = timePerWeek
     runsOfType = transform(runsOfType, x = ifelse(Type == runTypes[[i]], x, 0))
@@ -79,9 +79,15 @@ shinyServer(function(input, output) {
                             marker = list(line = list(color = 'rgb(8,48,107)', width = 1.5), 
                                           color = colours[[i]]),  name = runTypes[[i]])
     }
+    runsOfType = Activities
+    runsOfType = transform(Activities, moving_time = ifelse(type == runTypes[[i]], moving_time, 0))
+    if(nrow(runsOfType) > 0) {
+      q <- q %>% add_trace (q, x=~date, y=runsOfType$moving_time/3600, type='bar',
+                            marker = list(line = list(color = 'rgb(8,48,107)', width = 1.5), 
+                                          color = colours[[i]]),  name = runTypes[[i]])
+    }
   }
-  output$active_time = renderPlotly({
-    p
-  })
+  output$active_time = renderPlotly({ p })
+  output$active_time_week = renderPlotly({ q})
   
 })

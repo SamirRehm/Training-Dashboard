@@ -1,0 +1,12 @@
+name: Training-Shiny
+title: Training-Shiny
+username:
+account: samirrehm
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1005967
+bundleId: 2190224
+url: https://samirrehm.shinyapps.io/Training-Shiny/
+when: 1561958879.16213
+asMultiple: FALSE
+asStatic: FALSE

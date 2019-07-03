@@ -2,6 +2,11 @@ library(shiny)
 require(shinydashboard)
 library(ggplot2)
 library(dplyr)
+library(plyr)
+library(lubridate)
+library(plotly)
+library(jsonlite)
+library(httr)
 
 # Define UI for application that draws a histogram
 shinyUI(dashboardPage(
@@ -21,6 +26,13 @@ shinyUI(dashboardPage(
         ,solidHeader = TRUE 
         ,collapsible = TRUE 
         , plotlyOutput("plot", height = '200px')
+      ),
+      box(
+        title = "Current Week Active Time Breakdown (Hours)"
+        ,status = "primary"
+        ,solidHeader = TRUE 
+        ,collapsible = TRUE 
+        , plotlyOutput("active_time_week", height = '200px')
       )
   ),
   frow3 <- fluidRow (
